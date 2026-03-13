@@ -1,0 +1,39 @@
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--beacon-border);
+  position: relative;
+  transition: background 0.2s;
+
+  &.active {
+    background: var(--beacon-primary);
+  }
+}
+
+.toggle-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+
+  .active & {
+    transform: translateX(16px);
+  }
+}
+
+.toggle-label {
+  font-size: 13px;
+  color: var(--beacon-text-muted);
+}

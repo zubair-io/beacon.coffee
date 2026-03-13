@@ -1,0 +1,61 @@
+.community-card {
+  background: var(--beacon-surface);
+  border: 1px solid var(--beacon-border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: var(--beacon-shadow-soft);
+  }
+}
+
+.community-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--beacon-text);
+
+  .prefix {
+    color: var(--beacon-primary);
+    font-weight: 700;
+  }
+}
+
+.community-card-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--beacon-text-muted);
+  margin-bottom: 16px;
+}
+
+.community-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.member-count {
+  font-size: 12px;
+  color: var(--beacon-text-muted);
+}
+
+.btn-join {
+  padding: 5px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--beacon-primary);
+  background: var(--beacon-primary);
+  color: var(--beacon-text-inverse);
+  transition: all 0.15s;
+
+  &:hover { background: var(--beacon-primary-hover); }
+
+  &.joined {
+    background: transparent;
+    color: var(--beacon-primary);
+    &:hover { background: rgba(153, 54, 41, 0.1); }
+  }
+}

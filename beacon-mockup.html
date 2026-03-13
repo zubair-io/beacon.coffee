@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacon — HTML Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design Tokens ── */
+:root {
+  --beacon-primary: #993629;
+  --beacon-primary-hover: #7a2b21;
+  --beacon-primary-light: #f5e6e4;
+  --beacon-accent: #d94e3b;
+  --beacon-bg: #fdfbf7;
+  --beacon-bg-secondary: #f5f2eb;
+  --beacon-bg-tertiary: #f5f5f4;
+  --beacon-surface: #ffffff;
+  --beacon-text: #292524;
+  --beacon-text-muted: #78716c;
+  --beacon-text-inverse: #FFFFFF;
+  --beacon-border: #e7e5e4;
+  --beacon-border-focus: #993629;
+  --beacon-online: #28a745;
+  --beacon-bluesky: #3b82f6;
+  --beacon-shadow-soft: 0 2px 8px -1px rgba(0,0,0,0.05), 0 1px 2px -1px rgba(0,0,0,0.02);
+  --beacon-shadow-lifted: 0 10px 30px -5px rgba(0,0,0,0.08);
+  --beacon-font-body: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --beacon-font-heading: 'Merriweather', Georgia, serif;
+  --beacon-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+[data-theme='dark'] {
+  --beacon-primary: #993629;
+  --beacon-primary-hover: #c2392a;
+  --beacon-primary-light: #422016;
+  --beacon-bg: #1c1917;
+  --beacon-bg-secondary: #292524;
+  --beacon-bg-tertiary: #3a3836;
+  --beacon-surface: #262524;
+  --beacon-text: #e7e5e4;
+  --beacon-text-muted: #a8a29e;
+  --beacon-border: #44403c;
+  --beacon-border-focus: #d94e3b;
+  --beacon-online: #4ade80;
+  --beacon-bluesky: #3b82f6;
+  --beacon-shadow-soft: 0 2px 8px -1px rgba(0,0,0,0.2), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --beacon-shadow-lifted: 0 10px 30px -5px rgba(0,0,0,0.3);
+}
+
+html { font-size: 16px; }
+body {
+  font-family: var(--beacon-font-body);
+  background: var(--beacon-bg);
+  color: var(--beacon-text);
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ── Screen Switcher Bar ── */
+.screen-switcher {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #0c0a09; border-bottom: 1px solid #44403c;
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px 16px; height: 40px;
+}
+.screen-switcher .label {
+  font-size: 11px; color: #a8a29e; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-right: 8px; font-weight: 700;
+}
+.screen-switcher button {
+  font-family: var(--beacon-font-body); font-size: 12px; font-weight: 600;
+  padding: 4px 12px; border-radius: 6px; border: 1px solid transparent;
+  background: transparent; color: #a8a29e; cursor: pointer; transition: all 0.15s;
+}
+.screen-switcher button:hover { background: #292524; color: #e7e5e4; }
+.screen-switcher button.active {
+  background: rgba(153,54,41,0.2); color: #d94e3b; border-color: rgba(153,54,41,0.3);
+}
+.screen-switcher .theme-toggle {
+  margin-left: auto; font-size: 14px; background: none; border: none;
+  cursor: pointer; padding: 4px 8px; border-radius: 6px;
+}
+.screen-switcher .theme-toggle:hover { background: #292524; }
+
+/* ── Screens Container ── */
+.screens { padding-top: 40px; height: 100vh; }
+.screen { display: none; height: calc(100vh - 40px); }
+.screen.active { display: flex; }
+
+/* ── Login Screen ── */
+.login-screen {
+  display: none; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--beacon-bg) 0%, var(--beacon-bg-secondary) 100%);
+}
+.login-screen.active { display: flex; }
+.login-card {
+  width: 420px; padding: 48px; border-radius: 20px;
+  background: var(--beacon-surface); box-shadow: var(--beacon-shadow-lifted);
+  text-align: center;
+}
+.login-logo {
+  width: 64px; height: 64px; border-radius: 14px;
+  background: linear-gradient(135deg, #993629, #d94e3b);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; font-size: 28px; font-weight: 900; color: #fff;
+  font-family: var(--beacon-font-heading);
+}
+.login-card h1 {
+  font-family: var(--beacon-font-heading); font-size: 24px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.login-card .tagline {
+  color: var(--beacon-text-muted); font-size: 15px; margin-bottom: 32px;
+}
+.login-input {
+  width: 100%; padding: 12px 16px; border-radius: 12px;
+  border: 1px solid var(--beacon-border); background: var(--beacon-bg);
+  color: var(--beacon-text); font-size: 15px; font-family: var(--beacon-font-body);
+  margin-bottom: 16px; outline: none; transition: border-color 0.15s;
+}
+.login-input:focus { border-color: var(--beacon-border-focus); }
+.login-input::placeholder { color: var(--beacon-text-muted); }
+.btn-primary {
+  width: 100%; padding: 12px; border-radius: 12px; border: none;
+  background: var(--beacon-primary); color: #fff; font-size: 15px;
+  font-weight: 700; font-family: var(--beacon-font-body); cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--beacon-primary-hover); }
+.login-footer {
+  margin-top: 24px; font-size: 13px; color: var(--beacon-text-muted);
+}
+.login-footer a { color: var(--beacon-accent); text-decoration: none; }
+
+/* ── App Shell ── */
+.app-shell { display: flex; width: 100%; height: 100%; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 260px; min-width: 260px; height: 100%;
+  background: var(--beacon-bg-secondary); border-right: 1px solid var(--beacon-border);
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.sidebar-header {
+  padding: 20px 16px 12px; display: flex; align-items: center; gap: 10px;
+}
+.sidebar-logo {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(135deg, #993629, #d94e3b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: #fff;
+  font-family: var(--beacon-font-heading);
+}
+.sidebar-brand {
+  font-family: var(--beacon-font-heading); font-size: 18px; font-weight: 700;
+}
+.at-badge {
+  font-size: 10px; font-weight: 700; background: rgba(59,130,246,0.15);
+  color: var(--beacon-bluesky); padding: 2px 6px; border-radius: 4px;
+  margin-left: auto;
+}
+.sidebar-nav { padding: 8px 8px 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: var(--beacon-text-muted);
+  transition: all 0.12s; position: relative; text-decoration: none;
+}
+.nav-item:hover { background: var(--beacon-bg-tertiary); color: var(--beacon-text); }
+.nav-item.active {
+  background: rgba(153,54,41,0.15); color: var(--beacon-accent);
+}
+.nav-item .nav-icon { width: 20px; text-align: center; font-size: 16px; }
+.notif-badge {
+  position: absolute; right: 12px; font-size: 11px; font-weight: 700;
+  background: var(--beacon-accent); color: #fff; padding: 1px 6px;
+  border-radius: 10px; min-width: 20px; text-align: center;
+}
+
+.sidebar-section-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--beacon-text-muted);
+  padding: 20px 16px 8px;
+}
+.community-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 16px; cursor: pointer; font-size: 13px;
+  color: var(--beacon-text-muted); transition: all 0.12s; border-radius: 6px;
+  margin: 0 8px; text-decoration: none;
+}
+.community-item:hover { background: var(--beacon-bg-tertiary); color: var(--beacon-text); }
+.community-item.active { background: rgba(153,54,41,0.15); color: var(--beacon-accent); }
+.community-prefix { font-weight: 700; color: var(--beacon-accent); }
+.community-dot {
+  width: 7px; height: 7px; border-radius: 50%; margin-left: auto; flex-shrink: 0;
+}
+.community-dot.online { background: var(--beacon-online); }
+.community-dot.idle { background: #F59E0B; }
+
+.sidebar-trending { margin-top: auto; padding: 16px; }
+.trending-tag {
+  font-size: 12px; display: inline-block; padding: 3px 10px;
+  background: var(--beacon-bg-tertiary); border-radius: 4px;
+  color: var(--beacon-text-muted); margin: 2px; cursor: pointer;
+  transition: all 0.12s;
+}
+.trending-tag:hover { color: var(--beacon-accent); background: rgba(153,54,41,0.1); }
+
+.sidebar-footer {
+  padding: 12px 16px; border-top: 1px solid var(--beacon-border);
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #993629, #d94e3b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.user-info { overflow: hidden; }
+.user-name { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-handle { font-size: 11px; color: var(--beacon-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Main Content ── */
+.main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* ── Community Header ── */
+.community-header {
+  padding: 24px 28px 0; border-bottom: 1px solid var(--beacon-border);
+}
+.community-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.community-title {
+  font-family: var(--beacon-font-heading); font-size: 26px; font-weight: 700;
+}
+.community-title .prefix { color: var(--beacon-accent); }
+.community-actions { margin-left: auto; display: flex; gap: 8px; }
+.btn-sm {
+  padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  border: 1px solid var(--beacon-border); background: transparent;
+  color: var(--beacon-text); cursor: pointer; font-family: var(--beacon-font-body);
+  transition: all 0.12s;
+}
+.btn-sm:hover { background: var(--beacon-bg-tertiary); }
+.btn-sm.primary {
+  background: var(--beacon-primary); border-color: var(--beacon-primary);
+  color: #fff;
+}
+.btn-sm.primary:hover { background: var(--beacon-primary-hover); }
+.community-meta {
+  display: flex; align-items: center; gap: 16px; font-size: 13px;
+  color: var(--beacon-text-muted); margin-bottom: 16px;
+}
+.community-meta .members { font-weight: 600; }
+
+.sort-tabs { display: flex; gap: 4px; margin-bottom: -1px; }
+.sort-tab {
+  padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+  border-radius: 8px 8px 0 0; color: var(--beacon-text-muted);
+  transition: all 0.12s; border: none; background: none;
+  font-family: var(--beacon-font-body);
+}
+.sort-tab:hover { color: var(--beacon-text); }
+.sort-tab.active {
+  background: rgba(153,54,41,0.15); color: var(--beacon-accent);
+}
+.at-proto-indicator {
+  margin-left: auto; font-size: 12px; color: var(--beacon-text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.at-proto-indicator .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--beacon-bluesky);
+}
+
+/* ── Post Feed ── */
+.post-feed { padding: 0; flex: 1; }
+.post-card {
+  padding: 20px 28px; border-bottom: 1px solid var(--beacon-border);
+  cursor: pointer; transition: background 0.1s;
+}
+.post-card:hover { background: var(--beacon-bg-secondary); }
+.post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.post-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: #fff;
+}
+.post-author-info { flex: 1; min-width: 0; }
+.post-author-row { display: flex; align-items: center; gap: 6px; }
+.post-name { font-size: 14px; font-weight: 700; }
+.post-handle { font-size: 13px; color: var(--beacon-text-muted); }
+.post-time { font-size: 12px; color: var(--beacon-text-muted); }
+.source-badge {
+  display: flex; align-items: center; gap: 4px; font-size: 11px;
+  color: var(--beacon-bluesky); font-weight: 600; margin-left: auto; flex-shrink: 0;
+}
+.source-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--beacon-bluesky);
+}
+.post-text { font-size: 14px; line-height: 1.55; margin-bottom: 10px; }
+.post-media {
+  width: 100%; height: 200px; border-radius: 12px; margin-bottom: 10px;
+  background: var(--beacon-bg-tertiary); display: flex; align-items: center;
+  justify-content: center; color: var(--beacon-text-muted); font-size: 13px;
+}
+.hashtag-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.hashtag-pill {
+  font-size: 12px; font-weight: 600; color: var(--beacon-accent);
+  background: rgba(153,54,41,0.1); padding: 2px 8px; border-radius: 4px;
+  cursor: pointer; transition: background 0.12s;
+}
+.hashtag-pill:hover { background: rgba(153,54,41,0.2); }
+.post-engagement {
+  display: flex; gap: 20px; font-size: 13px; color: var(--beacon-text-muted);
+}
+.engagement-btn {
+  display: flex; align-items: center; gap: 5px; cursor: pointer;
+  transition: color 0.12s; background: none; border: none;
+  color: var(--beacon-text-muted); font-family: var(--beacon-font-body);
+  font-size: 13px;
+}
+.engagement-btn:hover { color: var(--beacon-text); }
+.engagement-btn.liked { color: #ef4444; }
+.engagement-btn.reposted { color: #22c55e; }
+.post-community-tag {
+  font-size: 11px; font-weight: 600; color: var(--beacon-accent);
+  margin-bottom: 6px;
+}
+
+/* ── Thread Panel ── */
+.thread-panel {
+  width: 360px; min-width: 360px; height: 100%;
+  border-left: 1px solid var(--beacon-border);
+  background: var(--beacon-surface); display: flex; flex-direction: column;
+}
+.thread-panel.hidden { display: none; }
+.thread-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--beacon-border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.thread-header h3 { font-size: 15px; font-weight: 700; }
+.thread-close {
+  width: 28px; height: 28px; border-radius: 6px; border: none;
+  background: var(--beacon-bg-tertiary); color: var(--beacon-text-muted);
+  cursor: pointer; font-size: 14px; display: flex; align-items: center;
+  justify-content: center;
+}
+.thread-close:hover { background: var(--beacon-border); }
+.thread-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.thread-root { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--beacon-border); }
+.thread-reply {
+  padding: 12px 0 12px 16px; border-left: 2px solid var(--beacon-border);
+  margin-left: 20px; margin-bottom: 8px;
+}
+.thread-reply .post-avatar { width: 28px; height: 28px; font-size: 11px; }
+.thread-reply .post-name { font-size: 13px; }
+.thread-reply .post-text { font-size: 13px; }
+.thread-composer {
+  padding: 12px 20px; border-top: 1px solid var(--beacon-border);
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.thread-composer-input {
+  flex: 1; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid var(--beacon-border); background: var(--beacon-bg);
+  color: var(--beacon-text); font-size: 13px; font-family: var(--beacon-font-body);
+  resize: none; outline: none; min-height: 40px;
+}
+.thread-composer-input:focus { border-color: var(--beacon-border-focus); }
+.thread-composer-input::placeholder { color: var(--beacon-text-muted); }
+.thread-send {
+  width: 36px; height: 36px; border-radius: 8px; border: none;
+  background: var(--beacon-primary); color: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.thread-send:hover { background: var(--beacon-primary-hover); }
+
+/* ── Page Container (for centered pages) ── */
+.page-centered {
+  max-width: 680px; margin: 0 auto; padding: 28px 28px; width: 100%;
+}
+.page-wide { max-width: 780px; }
+
+.page-heading {
+  font-family: var(--beacon-font-heading); font-size: 24px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.page-subtitle { font-size: 14px; color: var(--beacon-text-muted); margin-bottom: 20px; }
+
+/* ── Explore ── */
+.explore-search {
+  width: 100%; padding: 12px 18px; border-radius: 12px;
+  border: 1px solid var(--beacon-border); background: var(--beacon-bg-secondary);
+  color: var(--beacon-text); font-size: 15px; font-family: var(--beacon-font-body);
+  outline: none; margin-bottom: 24px;
+}
+.explore-search:focus { border-color: var(--beacon-border-focus); }
+.explore-search::placeholder { color: var(--beacon-text-muted); }
+.community-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.community-card {
+  padding: 20px; border-radius: 14px; border: 1px solid var(--beacon-border);
+  background: var(--beacon-surface); cursor: pointer; transition: all 0.15s;
+}
+.community-card:hover {
+  border-color: var(--beacon-accent); box-shadow: var(--beacon-shadow-soft);
+}
+.community-card-name {
+  font-size: 16px; font-weight: 700; margin-bottom: 6px;
+}
+.community-card-name .prefix { color: var(--beacon-accent); }
+.community-card-desc {
+  font-size: 13px; color: var(--beacon-text-muted); line-height: 1.45;
+  margin-bottom: 12px;
+}
+.community-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; color: var(--beacon-text-muted);
+}
+.btn-join {
+  padding: 5px 14px; border-radius: 6px; border: none;
+  background: var(--beacon-primary); color: #fff; font-size: 12px;
+  font-weight: 600; cursor: pointer; font-family: var(--beacon-font-body);
+}
+.btn-join:hover { background: var(--beacon-primary-hover); }
+
+/* ── Notifications ── */
+.notif-filters { display: flex; gap: 4px; margin-bottom: 20px; }
+.notif-filter {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; color: var(--beacon-text-muted); background: none; border: none;
+  font-family: var(--beacon-font-body); transition: all 0.12s;
+}
+.notif-filter:hover { background: var(--beacon-bg-tertiary); color: var(--beacon-text); }
+.notif-filter.active { background: rgba(153,54,41,0.15); color: var(--beacon-accent); }
+.notif-item {
+  padding: 14px 16px; border-radius: 10px; margin-bottom: 6px;
+  display: flex; gap: 12px; transition: background 0.1s;
+}
+.notif-item:hover { background: var(--beacon-bg-secondary); }
+.notif-item.unread {
+  border-left: 3px solid var(--beacon-accent);
+  background: rgba(153,54,41,0.06);
+}
+.notif-avatar { flex-shrink: 0; }
+.notif-content { flex: 1; min-width: 0; }
+.notif-text { font-size: 13px; line-height: 1.45; }
+.notif-text strong { font-weight: 700; }
+.notif-text .action { color: var(--beacon-text-muted); }
+.notif-time { font-size: 11px; color: var(--beacon-text-muted); margin-top: 2px; }
+.mark-read {
+  font-size: 13px; color: var(--beacon-accent); cursor: pointer; background: none;
+  border: none; font-family: var(--beacon-font-body); font-weight: 600;
+  margin-left: auto;
+}
+
+/* ── Profile ── */
+.profile-banner {
+  height: 160px; border-radius: 16px;
+  background: linear-gradient(135deg, #993629 0%, #d94e3b 50%, #b58900 100%);
+  margin-bottom: -44px; position: relative;
+}
+.profile-avatar-wrapper {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 4px solid var(--beacon-surface);
+  margin-left: 24px; position: relative; z-index: 1;
+}
+.profile-avatar-lg {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #993629, #d94e3b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700; color: #fff;
+  font-family: var(--beacon-font-heading);
+}
+.profile-info { padding: 8px 24px 0; }
+.profile-name {
+  font-family: var(--beacon-font-heading); font-size: 22px; font-weight: 700;
+  margin-bottom: 2px;
+}
+.profile-handle { font-size: 14px; color: var(--beacon-text-muted); margin-bottom: 10px; }
+.profile-bio { font-size: 14px; line-height: 1.5; margin-bottom: 16px; }
+.profile-stats {
+  display: flex; gap: 24px; margin-bottom: 24px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--beacon-border);
+}
+.stat { text-align: center; }
+.stat-value { font-size: 18px; font-weight: 700; display: block; }
+.stat-label { font-size: 12px; color: var(--beacon-text-muted); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--beacon-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--beacon-text-muted); }
+</style>
+</head>
+<body>
+
+<!-- Screen Switcher -->
+<div class="screen-switcher">
+  <span class="label">Screens</span>
+  <button class="active" onclick="showScreen('login')">Login</button>
+  <button onclick="showScreen('community')">Community View</button>
+  <button onclick="showScreen('home')">Home Feed</button>
+  <button onclick="showScreen('explore')">Explore</button>
+  <button onclick="showScreen('notifications')">Notifications</button>
+  <button onclick="showScreen('profile')">Profile</button>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+</div>
+
+<div class="screens">
+
+<!-- ═══════ LOGIN SCREEN ═══════ -->
+<div id="screen-login" class="screen login-screen active">
+  <div class="login-card">
+    <div class="login-logo">B</div>
+    <h1>Welcome to Beacon</h1>
+    <p class="tagline">Every hashtag is a community</p>
+    <input class="login-input" type="text" placeholder="Enter your Bluesky handle (e.g. zubair.bsky.social)">
+    <button class="btn-primary">Sign in with Bluesky</button>
+    <p class="login-footer">
+      Don't have a Bluesky account? <a href="#">Create one</a><br>
+      <span style="margin-top:8px;display:inline-block;font-size:12px">Or <a href="#" onclick="showScreen('community');return false">browse without signing in</a></span>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════ COMMUNITY VIEW ═══════ -->
+<div id="screen-community" class="screen">
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">B</div>
+        <span class="sidebar-brand">Beacon</span>
+        <span class="at-badge">AT Proto</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="#" onclick="showScreen('home');return false">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <a class="nav-item" href="#" onclick="showScreen('explore');return false">
+          <span class="nav-icon">🔭</span> Explore
+        </a>
+        <a class="nav-item" href="#" onclick="showScreen('notifications');return false">
+          <span class="nav-icon">🔔</span> Notifications
+          <span class="notif-badge">3</span>
+        </a>
+      </nav>
+      <div class="sidebar-section-title">Communities</div>
+      <a class="community-item active">
+        <span class="community-prefix">/!/</span>design
+        <span class="community-dot online"></span>
+      </a>
+      <a class="community-item">
+        <span class="community-prefix">/!/</span>indiegamedev
+        <span class="community-dot online"></span>
+      </a>
+      <a class="community-item">
+        <span class="community-prefix">/!/</span>photography
+        <span class="community-dot idle"></span>
+      </a>
+      <a class="community-item">
+        <span class="community-prefix">/!/</span>typescript
+        <span class="community-dot online"></span>
+      </a>
+      <a class="community-item">
+        <span class="community-prefix">/!/</span>atproto
+        <span class="community-dot online"></span>
+      </a>
+      <a class="community-item">
+        <span class="community-prefix">/!/</span>music
+        <span class="community-dot idle"></span>
+      </a>
+      <div class="sidebar-section-title">Trending</div>
+      <div class="sidebar-trending">
+        <span class="trending-tag">#ai</span>
+        <span class="trending-tag">#webdev</span>
+        <span class="trending-tag">#startups</span>
+        <span class="trending-tag">#rust</span>
+        <span class="trending-tag">#ux</span>
+        <span class="trending-tag">#bluesky</span>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <div class="user-name">Zubair</div>
+          <div class="user-handle">@zubair.bsky.social</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Feed -->
+    <div class="main-content">
+      <div class="community-header">
+        <div class="community-title-row">
+          <h1 class="community-title"><span class="prefix">/!/</span>design</h1>
+          <div class="community-actions">
+            <button class="btn-sm primary">+ New Post</button>
+            <button class="btn-sm">Joined ✓</button>
+          </div>
+        </div>
+        <div class="community-meta">
+          <span class="members">2,847 members</span>
+          <span>·</span>
+          <span>Design inspiration, UI/UX discussion, and creative process</span>
+        </div>
+        <div style="display:flex;align-items:center">
+          <div class="sort-tabs">
+            <button class="sort-tab active">Latest</button>
+            <button class="sort-tab">Top</button>
+          </div>
+          <div class="at-proto-indicator">
+            <span class="dot"></span> Powered by AT Protocol
+          </div>
+        </div>
+      </div>
+
+      <div class="post-feed">
+        <!-- Post 1 -->
+        <div class="post-card" onclick="toggleThread()">
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#9333ea)">A</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Alice Chen</span>
+                <span class="post-handle">@alice.bsky.social</span>
+                <span class="post-time">· 5m</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Just finished a complete redesign of our dashboard using a warm dark theme. The trick is never using pure black — warm browns feel so much more inviting. Really happy with how the data viz turned out.</div>
+          <div class="post-media">📷 Image attachment</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#darkmode</span>
+            <span class="hashtag-pill">#ux</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 12</button>
+            <button class="engagement-btn reposted">🔄 8</button>
+            <button class="engagement-btn liked">❤️ 47</button>
+          </div>
+        </div>
+
+        <!-- Post 2 -->
+        <div class="post-card">
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#16a34a,#0d9488)">M</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Marco Rossi</span>
+                <span class="post-handle">@marco.bsky.social</span>
+                <span class="post-time">· 23m</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Unpopular opinion: most "minimal" designs are just lazy. Real minimalism requires MORE design thinking, not less. Every element that remains has to earn its place.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#minimalism</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 34</button>
+            <button class="engagement-btn">🔄 15</button>
+            <button class="engagement-btn">❤️ 92</button>
+          </div>
+        </div>
+
+        <!-- Post 3 -->
+        <div class="post-card">
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#db2777,#9333ea)">S</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Sarah Kim</span>
+                <span class="post-handle">@sarahk.bsky.social</span>
+                <span class="post-time">· 1h</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Released my new open-source icon set today — 1,200 icons, all MIT licensed. Built for modern web apps with consistent 24px grid. Would love feedback from the community!</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#opensource</span>
+            <span class="hashtag-pill">#icons</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 8</button>
+            <button class="engagement-btn">🔄 42</button>
+            <button class="engagement-btn">❤️ 156</button>
+          </div>
+        </div>
+
+        <!-- Post 4 -->
+        <div class="post-card">
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#c2410c,#b58900)">J</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">James Park</span>
+                <span class="post-handle">@jamesp.bsky.social</span>
+                <span class="post-time">· 2h</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Working on a component library with Merriweather for headings and Lato for body text. The serif/sans combo adds warmth without feeling dated. Any thoughts on pairing with a monospace for code blocks?</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#typography</span>
+            <span class="hashtag-pill">#webdev</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 19</button>
+            <button class="engagement-btn">🔄 6</button>
+            <button class="engagement-btn">❤️ 31</button>
+          </div>
+        </div>
+
+        <!-- Post 5 -->
+        <div class="post-card">
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#993629,#d94e3b)">E</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Elena Torres</span>
+                <span class="post-handle">@elena.bsky.social</span>
+                <span class="post-time">· 3h</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Accessibility tip: color contrast alone isn't enough. Always pair color indicators with icons, text, or patterns. Your colorblind users will thank you.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#a11y</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 7</button>
+            <button class="engagement-btn">🔄 28</button>
+            <button class="engagement-btn">❤️ 84</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread Panel -->
+    <div class="thread-panel" id="thread-panel">
+      <div class="thread-header">
+        <h3>Thread</h3>
+        <button class="thread-close" onclick="toggleThread()">✕</button>
+      </div>
+      <div class="thread-body">
+        <div class="thread-root">
+          <div class="post-header" style="margin-bottom:10px">
+            <div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#2563eb,#9333ea)">A</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Alice Chen</span>
+                <span class="post-handle">@alice.bsky.social</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-text">Just finished a complete redesign of our dashboard using a warm dark theme. The trick is never using pure black — warm browns feel so much more inviting.</div>
+          <div class="post-engagement" style="margin-top:10px">
+            <button class="engagement-btn">💬 12</button>
+            <button class="engagement-btn reposted">🔄 8</button>
+            <button class="engagement-btn liked">❤️ 47</button>
+          </div>
+        </div>
+        <!-- Replies -->
+        <div class="thread-reply">
+          <div class="post-header" style="margin-bottom:6px">
+            <div class="post-avatar" style="width:28px;height:28px;font-size:11px;background:linear-gradient(135deg,#16a34a,#0d9488)">M</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name" style="font-size:13px">Marco Rossi</span>
+                <span class="post-time">· 3m</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-text" style="font-size:13px">100% agree on the warm browns. I use #1c1917 as my base dark and it transforms the entire feel. Pure black is hostile to eyes.</div>
+        </div>
+        <div class="thread-reply">
+          <div class="post-header" style="margin-bottom:6px">
+            <div class="post-avatar" style="width:28px;height:28px;font-size:11px;background:linear-gradient(135deg,#db2777,#9333ea)">S</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name" style="font-size:13px">Sarah Kim</span>
+                <span class="post-time">· 2m</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-text" style="font-size:13px">Love this approach! What tools are you using for the data viz? I've been exploring D3 with custom dark palettes.</div>
+        </div>
+        <div class="thread-reply">
+          <div class="post-header" style="margin-bottom:6px">
+            <div class="post-avatar" style="width:28px;height:28px;font-size:11px;background:linear-gradient(135deg,#c2410c,#b58900)">J</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name" style="font-size:13px">James Park</span>
+                <span class="post-time">· 1m</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-text" style="font-size:13px">Would love to see a before/after comparison! Always helpful for learning.</div>
+        </div>
+      </div>
+      <div class="thread-composer">
+        <textarea class="thread-composer-input" rows="1" placeholder="Reply to thread..."></textarea>
+        <button class="thread-send">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ HOME FEED ═══════ -->
+<div id="screen-home" class="screen">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">B</div>
+        <span class="sidebar-brand">Beacon</span>
+        <span class="at-badge">AT Proto</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <a class="nav-item" href="#" onclick="showScreen('explore');return false">
+          <span class="nav-icon">🔭</span> Explore
+        </a>
+        <a class="nav-item" href="#" onclick="showScreen('notifications');return false">
+          <span class="nav-icon">🔔</span> Notifications
+          <span class="notif-badge">3</span>
+        </a>
+      </nav>
+      <div class="sidebar-section-title">Communities</div>
+      <a class="community-item" href="#" onclick="showScreen('community');return false">
+        <span class="community-prefix">/!/</span>design
+        <span class="community-dot online"></span>
+      </a>
+      <a class="community-item"><span class="community-prefix">/!/</span>indiegamedev<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>photography<span class="community-dot idle"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>typescript<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>atproto<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>music<span class="community-dot idle"></span></a>
+      <div class="sidebar-section-title">Trending</div>
+      <div class="sidebar-trending">
+        <span class="trending-tag">#ai</span>
+        <span class="trending-tag">#webdev</span>
+        <span class="trending-tag">#startups</span>
+        <span class="trending-tag">#rust</span>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <div class="user-name">Zubair</div>
+          <div class="user-handle">@zubair.bsky.social</div>
+        </div>
+      </div>
+    </aside>
+    <div class="main-content">
+      <div class="page-centered">
+        <div style="display:flex;align-items:center;margin-bottom:4px">
+          <h1 class="page-heading">Home</h1>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:20px">
+          <div class="sort-tabs" style="margin-bottom:0">
+            <button class="sort-tab active">Latest</button>
+            <button class="sort-tab">Top</button>
+          </div>
+        </div>
+
+        <!-- Home posts with community tags -->
+        <div class="post-card" style="padding:20px 0;border-radius:0">
+          <div class="post-community-tag">/!/design</div>
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#9333ea)">A</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Alice Chen</span>
+                <span class="post-handle">@alice.bsky.social</span>
+                <span class="post-time">· 5m</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Just finished a complete redesign of our dashboard using a warm dark theme. The trick is never using pure black — warm browns feel so much more inviting.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#darkmode</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 12</button>
+            <button class="engagement-btn">🔄 8</button>
+            <button class="engagement-btn liked">❤️ 47</button>
+          </div>
+        </div>
+
+        <div class="post-card" style="padding:20px 0;border-radius:0">
+          <div class="post-community-tag">/!/indiegamedev</div>
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#c2410c,#b58900)">R</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Riley Oaks</span>
+                <span class="post-handle">@riley.bsky.social</span>
+                <span class="post-time">· 18m</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Week 12 devlog: finally nailed the procedural terrain generation. Spent days tweaking noise layers but the result is gorgeous. Here's a quick flyover.</div>
+          <div class="post-media">🎮 Video attachment</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#indiegamedev</span>
+            <span class="hashtag-pill">#procgen</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 24</button>
+            <button class="engagement-btn">🔄 31</button>
+            <button class="engagement-btn">❤️ 189</button>
+          </div>
+        </div>
+
+        <div class="post-card" style="padding:20px 0;border-radius:0">
+          <div class="post-community-tag">/!/typescript</div>
+          <div class="post-header">
+            <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#0d9488)">T</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Tara Nguyen</span>
+                <span class="post-handle">@tara.bsky.social</span>
+                <span class="post-time">· 45m</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">TypeScript 5.8 just dropped and the new type inference for conditional generics is a game changer. Pattern matching feels almost native now.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#typescript</span>
+            <span class="hashtag-pill">#webdev</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 16</button>
+            <button class="engagement-btn">🔄 22</button>
+            <button class="engagement-btn">❤️ 67</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ EXPLORE ═══════ -->
+<div id="screen-explore" class="screen">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">B</div>
+        <span class="sidebar-brand">Beacon</span>
+        <span class="at-badge">AT Proto</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="#" onclick="showScreen('home');return false"><span class="nav-icon">🏠</span> Home</a>
+        <a class="nav-item active"><span class="nav-icon">🔭</span> Explore</a>
+        <a class="nav-item" href="#" onclick="showScreen('notifications');return false"><span class="nav-icon">🔔</span> Notifications<span class="notif-badge">3</span></a>
+      </nav>
+      <div class="sidebar-section-title">Communities</div>
+      <a class="community-item" href="#" onclick="showScreen('community');return false"><span class="community-prefix">/!/</span>design<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>indiegamedev<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>photography<span class="community-dot idle"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>typescript<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>atproto<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>music<span class="community-dot idle"></span></a>
+      <div class="sidebar-section-title">Trending</div>
+      <div class="sidebar-trending">
+        <span class="trending-tag">#ai</span><span class="trending-tag">#webdev</span><span class="trending-tag">#startups</span><span class="trending-tag">#rust</span>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <div class="user-name">Zubair</div>
+          <div class="user-handle">@zubair.bsky.social</div>
+        </div>
+      </div>
+    </aside>
+    <div class="main-content">
+      <div class="page-centered page-wide">
+        <h1 class="page-heading">Explore</h1>
+        <p class="page-subtitle">Discover communities on the AT Protocol</p>
+        <input class="explore-search" type="text" placeholder="Search communities by hashtag...">
+        <div class="community-cards">
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>ai</div>
+            <div class="community-card-desc">Artificial intelligence, machine learning, and the future of computing. Research papers, tools, and discussion.</div>
+            <div class="community-card-footer">
+              <span>5,230 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>webdev</div>
+            <div class="community-card-desc">Frontend, backend, and everything in between. Frameworks, tools, and web standards.</div>
+            <div class="community-card-footer">
+              <span>4,100 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>startups</div>
+            <div class="community-card-desc">Building, launching, and growing startups. Share your journey, get feedback, find collaborators.</div>
+            <div class="community-card-footer">
+              <span>3,780 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>rust</div>
+            <div class="community-card-desc">The Rust programming language — systems programming, memory safety, and blazing fast performance.</div>
+            <div class="community-card-footer">
+              <span>2,950 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>bluesky</div>
+            <div class="community-card-desc">All things Bluesky and the AT Protocol. App updates, ecosystem news, and decentralized social.</div>
+            <div class="community-card-footer">
+              <span>6,100 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+          <div class="community-card">
+            <div class="community-card-name"><span class="prefix">/!/</span>ux</div>
+            <div class="community-card-desc">User experience research, interaction design, usability testing, and human-centered product thinking.</div>
+            <div class="community-card-footer">
+              <span>1,840 members</span>
+              <button class="btn-join">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ NOTIFICATIONS ═══════ -->
+<div id="screen-notifications" class="screen">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">B</div>
+        <span class="sidebar-brand">Beacon</span>
+        <span class="at-badge">AT Proto</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="#" onclick="showScreen('home');return false"><span class="nav-icon">🏠</span> Home</a>
+        <a class="nav-item" href="#" onclick="showScreen('explore');return false"><span class="nav-icon">🔭</span> Explore</a>
+        <a class="nav-item active"><span class="nav-icon">🔔</span> Notifications</a>
+      </nav>
+      <div class="sidebar-section-title">Communities</div>
+      <a class="community-item" href="#" onclick="showScreen('community');return false"><span class="community-prefix">/!/</span>design<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>indiegamedev<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>photography<span class="community-dot idle"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>typescript<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>atproto<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>music<span class="community-dot idle"></span></a>
+      <div class="sidebar-section-title">Trending</div>
+      <div class="sidebar-trending">
+        <span class="trending-tag">#ai</span><span class="trending-tag">#webdev</span><span class="trending-tag">#startups</span><span class="trending-tag">#rust</span>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <div class="user-name">Zubair</div>
+          <div class="user-handle">@zubair.bsky.social</div>
+        </div>
+      </div>
+    </aside>
+    <div class="main-content">
+      <div class="page-centered" style="max-width:640px">
+        <div style="display:flex;align-items:center;margin-bottom:16px">
+          <h1 class="page-heading">Notifications</h1>
+          <button class="mark-read">Mark all read</button>
+        </div>
+        <div class="notif-filters">
+          <button class="notif-filter active">All</button>
+          <button class="notif-filter">Mentions</button>
+          <button class="notif-filter">Replies</button>
+          <button class="notif-filter">Likes</button>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#16a34a,#0d9488)">M</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>Marco Rossi</strong> <span class="action">replied to your post in</span> <strong>/!/design</strong></div>
+            <div class="notif-time">2 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#db2777,#9333ea)">S</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>Sarah Kim</strong> <span class="action">liked your post in</span> <strong>/!/design</strong></div>
+            <div class="notif-time">5 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#c2410c,#b58900)">J</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>James Park</strong> <span class="action">mentioned you in</span> <strong>/!/typography</strong></div>
+            <div class="notif-time">12 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#2563eb,#9333ea)">A</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>Alice Chen</strong> <span class="action">reposted your post in</span> <strong>/!/design</strong></div>
+            <div class="notif-time">1 hour ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#9333ea,#2563eb)">L</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>Leo Bianchi</strong> <span class="action">started following you</span></div>
+            <div class="notif-time">3 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-avatar"><div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#0d9488,#16a34a)">N</div></div>
+          <div class="notif-content">
+            <div class="notif-text"><strong>Nina Patel</strong> <span class="action">liked your reply in</span> <strong>/!/atproto</strong></div>
+            <div class="notif-time">5 hours ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ PROFILE ═══════ -->
+<div id="screen-profile" class="screen">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">B</div>
+        <span class="sidebar-brand">Beacon</span>
+        <span class="at-badge">AT Proto</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="#" onclick="showScreen('home');return false"><span class="nav-icon">🏠</span> Home</a>
+        <a class="nav-item" href="#" onclick="showScreen('explore');return false"><span class="nav-icon">🔭</span> Explore</a>
+        <a class="nav-item" href="#" onclick="showScreen('notifications');return false"><span class="nav-icon">🔔</span> Notifications<span class="notif-badge">3</span></a>
+      </nav>
+      <div class="sidebar-section-title">Communities</div>
+      <a class="community-item" href="#" onclick="showScreen('community');return false"><span class="community-prefix">/!/</span>design<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>indiegamedev<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>photography<span class="community-dot idle"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>typescript<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>atproto<span class="community-dot online"></span></a>
+      <a class="community-item"><span class="community-prefix">/!/</span>music<span class="community-dot idle"></span></a>
+      <div class="sidebar-section-title">Trending</div>
+      <div class="sidebar-trending">
+        <span class="trending-tag">#ai</span><span class="trending-tag">#webdev</span><span class="trending-tag">#startups</span><span class="trending-tag">#rust</span>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-avatar">Z</div>
+        <div class="user-info">
+          <div class="user-name">Zubair</div>
+          <div class="user-handle">@zubair.bsky.social</div>
+        </div>
+      </div>
+    </aside>
+    <div class="main-content">
+      <div class="page-centered" style="max-width:640px">
+        <div class="profile-banner"></div>
+        <div class="profile-avatar-wrapper">
+          <div class="profile-avatar-lg">Z</div>
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-name">Zubair</h2>
+          <div class="profile-handle">@zubair.bsky.social</div>
+          <div class="profile-bio">Building Beacon — turning Bluesky hashtags into communities. Product thinker. Design obsessed. AT Protocol enthusiast.</div>
+          <div class="profile-stats">
+            <div class="stat"><span class="stat-value">1,247</span><span class="stat-label">Followers</span></div>
+            <div class="stat"><span class="stat-value">892</span><span class="stat-label">Following</span></div>
+            <div class="stat"><span class="stat-value">3,461</span><span class="stat-label">Posts</span></div>
+          </div>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Recent Posts</h3>
+        <div class="post-card" style="padding:16px 0;border-radius:0">
+          <div class="post-header">
+            <div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#993629,#d94e3b)">Z</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Zubair</span>
+                <span class="post-handle">@zubair.bsky.social</span>
+                <span class="post-time">· 2h</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">Beacon dev update: the thread panel is looking really clean. Three-column layout with the sidebar, feed, and threads feels perfect for community browsing.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#design</span>
+            <span class="hashtag-pill">#atproto</span>
+            <span class="hashtag-pill">#beacon</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 8</button>
+            <button class="engagement-btn">🔄 5</button>
+            <button class="engagement-btn">❤️ 34</button>
+          </div>
+        </div>
+        <div class="post-card" style="padding:16px 0;border-radius:0">
+          <div class="post-header">
+            <div class="post-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#993629,#d94e3b)">Z</div>
+            <div class="post-author-info">
+              <div class="post-author-row">
+                <span class="post-name">Zubair</span>
+                <span class="post-handle">@zubair.bsky.social</span>
+                <span class="post-time">· 8h</span>
+              </div>
+            </div>
+            <div class="source-badge"><span class="dot"></span> Bluesky</div>
+          </div>
+          <div class="post-text">The AT Protocol's OAuth public client flow is surprisingly elegant. No backend needed — tokens stay in the browser, PKCE handles security. Zero infrastructure auth.</div>
+          <div class="hashtag-pills">
+            <span class="hashtag-pill">#atproto</span>
+            <span class="hashtag-pill">#webdev</span>
+          </div>
+          <div class="post-engagement">
+            <button class="engagement-btn">💬 14</button>
+            <button class="engagement-btn">🔄 12</button>
+            <button class="engagement-btn">❤️ 58</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /screens -->
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.screen-switcher button:not(.theme-toggle)').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+}
+
+function toggleThread() {
+  const panel = document.getElementById('thread-panel');
+  panel.classList.toggle('hidden');
+}
+</script>
+</body>
+</html>

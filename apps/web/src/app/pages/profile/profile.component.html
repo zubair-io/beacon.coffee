@@ -1,0 +1,52 @@
+<div class="page-centered">
+  @if (profileStore.loading()) {
+    <div class="profile-loading"><beacon-spinner size="lg" /></div>
+  } @else if (profileStore.currentProfile(); as profile) {
+    <div class="profile-banner"></div>
+
+    <div class="profile-avatar-wrapper">
+      <beacon-avatar
+        [src]="profile.avatar"
+        [name]="profile.displayName || profile.handle"
+        size="lg"
+      />
+    </div>
+
+    <div class="profile-info">
+      <h2 class="profile-name">{{ profile.displayName || profile.handle }}</h2>
+      <div class="profile-handle">&#64;{{ profile.handle }}</div>
+      @if (profile.description) {
+        <div class="profile-bio">{{ profile.description }}</div>
+      }
+      <div class="profile-stats">
+        <div class="stat">
+          <span class="stat-value">{{ formatCount(profile.followersCount) }}</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ formatCount(profile.followsCount) }}</span>
+          <span class="stat-label">Following</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ formatCount(profile.postsCount) }}</span>
+          <span class="stat-label">Posts</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title">Recent Posts</h3>
+
+    @if (loadingPosts()) {
+      <div class="posts-loading"><beacon-spinner size="md" /></div>
+    } @else if (recentPosts().length === 0) {
+      <div class="posts-empty">No recent posts</div>
+    } @else {
+      @for (post of recentPosts(); track post.uri) {
+        <beacon-post-card
+          [post]="post"
+          (postClicked)="onPostClick($event)"
+        />
+      }
+    }
+  }
+</div>

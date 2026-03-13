@@ -1,0 +1,91 @@
+.page-centered {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.profile-banner {
+  height: 160px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--beacon-primary), var(--beacon-accent));
+}
+
+.profile-avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: -44px;
+  margin-bottom: 12px;
+}
+
+.profile-info {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.profile-handle {
+  font-size: 14px;
+  color: var(--beacon-text-muted);
+  margin-bottom: 12px;
+}
+
+.profile-bio {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--beacon-text);
+  max-width: 460px;
+  margin: 0 auto 16px;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--beacon-text);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--beacon-text-muted);
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-family: var(--beacon-font-body);
+}
+
+.posts-loading {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.posts-empty {
+  text-align: center;
+  color: var(--beacon-text-muted);
+  font-size: 14px;
+  padding: 32px 0;
+}

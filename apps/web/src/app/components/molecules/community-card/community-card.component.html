@@ -1,0 +1,18 @@
+<div class="community-card">
+  <div class="community-card-name">
+    <span class="prefix">/!/</span>{{ hashtag() }}
+  </div>
+  <div class="community-card-desc">{{ description() }}</div>
+  <div class="community-card-footer">
+    @if (memberCount()) {
+      <span class="member-count">{{ memberCount() }} members</span>
+    }
+    <button
+      class="btn-join"
+      [class.joined]="isJoined()"
+      (click)="onJoin($event)"
+    >
+      @if (isJoined()) { Joined ✓ } @else { Join }
+    </button>
+  </div>
+</div>

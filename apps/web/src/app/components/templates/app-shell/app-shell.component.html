@@ -1,0 +1,81 @@
+<!-- Mobile hamburger -->
+<button class="mobile-menu-btn" (click)="toggleSidebar()">
+  <beacon-icon name="menu" [size]="24" />
+</button>
+
+<!-- Sidebar overlay for mobile -->
+@if (sidebarOpen()) {
+  <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+}
+
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="sidebarOpen()">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">B</div>
+      <span class="sidebar-brand">Beacon</span>
+      <span class="at-badge">AT Proto</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/home" routerLinkActive="active" (click)="closeSidebar()">
+        <beacon-icon name="home" [size]="18" />
+        <span>Home</span>
+      </a>
+      <a class="nav-item" routerLink="/explore" routerLinkActive="active" (click)="closeSidebar()">
+        <beacon-icon name="explore" [size]="18" />
+        <span>Explore</span>
+      </a>
+      <a class="nav-item" routerLink="/notifications" routerLinkActive="active" (click)="closeSidebar()">
+        <beacon-icon name="notifications" [size]="18" />
+        <span>Notifications</span>
+        @if (notifications.unreadCount() > 0) {
+          <span class="notif-badge">{{ notifications.unreadCount() }}</span>
+        }
+      </a>
+    </nav>
+
+    @if (communities.communities().length > 0) {
+      <div class="sidebar-section-title">Communities</div>
+      @for (community of communities.communities(); track community.hashtag) {
+        <a
+          class="community-item"
+          [routerLink]="['/!', community.hashtag]"
+          routerLinkActive="active"
+          (click)="closeSidebar()"
+        >
+          <span class="community-prefix">/!/</span>{{ community.hashtag }}
+          <span class="community-dot online"></span>
+        </a>
+      }
+    }
+
+    <div class="sidebar-section-title">Trending</div>
+    <div class="sidebar-trending">
+      @for (tag of trendingTags; track tag) {
+        <span class="trending-tag" (click)="navigateToCommunity(tag)">#{{ tag }}</span>
+      }
+    </div>
+
+    <div class="sidebar-footer">
+      @if (auth.currentUser()) {
+        <beacon-avatar
+          [src]="auth.currentUser()?.avatar"
+          [name]="auth.currentUser()?.displayName || auth.currentUser()?.handle || ''"
+          size="sm"
+        />
+        <div class="user-info">
+          <div class="user-name">{{ auth.currentUser()?.displayName }}</div>
+          <div class="user-handle">&#64;{{ auth.currentUser()?.handle }}</div>
+        </div>
+      } @else {
+        <a class="login-link" routerLink="/login">Sign in</a>
+      }
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>

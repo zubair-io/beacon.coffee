@@ -1,0 +1,38 @@
+.page-centered {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--beacon-border);
+}
+
+.page-heading {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.feed-empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--beacon-text-muted);
+  font-size: 15px;
+}
+
+.explore-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--beacon-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.feed-loading {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}

@@ -1,0 +1,74 @@
+<article class="post-card" (click)="onClick()">
+  @if (showCommunityTag() && communityTag()) {
+    <div class="post-community-tag">
+      <span class="prefix">/!/</span>{{ communityTag() }}
+    </div>
+  }
+
+  <div class="post-header">
+    <beacon-avatar
+      [src]="author().avatar"
+      [name]="author().displayName || author().handle"
+      size="md"
+    />
+    <div class="post-author-info">
+      <div class="post-author-row">
+        <span class="post-name">{{ author().displayName || author().handle }}</span>
+        <span class="post-handle">&#64;{{ author().handle }}</span>
+        <span class="post-time">&middot; {{ time() }}</span>
+      </div>
+    </div>
+    <beacon-source-badge />
+  </div>
+
+  <div class="post-text" [innerHTML]="renderedText()"></div>
+
+  @if (images().length > 0) {
+    <div class="post-images" [class]="'image-count-' + images().length">
+      @for (img of images(); track img.thumb) {
+        <img
+          [src]="img.thumb"
+          [alt]="img.alt || 'Post image'"
+          class="post-image"
+          loading="lazy"
+          (click)="onImageClick($event, img.fullsize)"
+        />
+      }
+    </div>
+  }
+
+  @if (hashtags().length > 0) {
+    <div class="hashtag-pills">
+      @for (tag of hashtags(); track tag) {
+        <beacon-hashtag-pill [tag]="tag" />
+      }
+    </div>
+  }
+
+  <div class="post-engagement">
+    <button class="engagement-btn" (click)="onClick()">
+      <span class="material-symbols-rounded">chat_bubble</span> {{ replyCount() }}
+    </button>
+    <button
+      class="engagement-btn"
+      [class.active-repost]="isReposted()"
+      (click)="onRepost($event)"
+    >
+      <span class="material-symbols-rounded">repeat</span> {{ repostCount() }}
+    </button>
+    <button
+      class="engagement-btn"
+      [class.active-like]="isLiked()"
+      (click)="onLike($event)"
+    >
+      <span class="material-symbols-rounded">{{ isLiked() ? 'favorite' : 'favorite_border' }}</span> {{ likeCount() }}
+    </button>
+    <button
+      class="engagement-btn"
+      [class.active-link]="linkCopied"
+      (click)="onCopyLink($event)"
+    >
+      <span class="material-symbols-rounded">{{ linkCopied ? 'check' : 'link' }}</span>
+    </button>
+  </div>
+</article>

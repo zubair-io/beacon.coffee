@@ -1,0 +1,16 @@
+@if (src()) {
+  <img
+    class="avatar {{ sizeClass() }}"
+    [src]="src()"
+    [alt]="name()"
+    loading="lazy"
+    (error)="$any($event.target).style.display='none'"
+  />
+} @else {
+  <div
+    class="avatar avatar-fallback {{ sizeClass() }}"
+    [style.background]="gradient()"
+  >
+    {{ initials() }}
+  </div>
+}

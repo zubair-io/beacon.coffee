@@ -1,0 +1,61 @@
+<div class="community-view" [class.thread-open]="threadStore.isOpen()">
+  <div class="feed-area">
+    <!-- Community Header -->
+    <div class="community-header">
+      <div class="community-header-top">
+        <h1 class="community-title">
+          <span class="prefix">/!/</span>{{ tag() }}
+        </h1>
+        <div class="community-actions">
+          <button class="btn-join" [class.joined]="isJoined" (click)="toggleJoin()">
+            @if (isJoined) { Joined ✓ } @else { Join }
+          </button>
+        </div>
+      </div>
+      <div class="community-meta">
+        <span class="at-indicator">
+          <span class="at-dot"></span>
+          Powered by AT Protocol
+        </span>
+      </div>
+      <beacon-sort-tabs
+        [activeSort]="feedStore.sort()"
+        (sortChanged)="onSortChange($event)"
+      />
+    </div>
+
+    <!-- Feed -->
+    <div class="post-feed">
+      @for (post of feedStore.posts(); track post.uri) {
+        <beacon-post-card
+          [post]="post"
+          (postClicked)="onPostClick($event)"
+          (likeClicked)="onLike($event)"
+          (repostClicked)="onRepost($event)"
+        />
+      }
+
+      @if (feedStore.loading()) {
+        <div class="feed-loading">
+          <beacon-spinner size="md" />
+        </div>
+      }
+
+      @if (!feedStore.loading() && feedStore.posts().length === 0) {
+        <div class="feed-empty">
+          <p>No posts found for <strong>/!/{{ tag() }}</strong></p>
+          <p class="feed-empty-sub">Be the first to post with #{{ tag() }}</p>
+        </div>
+      }
+
+      @if (feedStore.hasMore() && !feedStore.loading() && feedStore.posts().length > 0) {
+        <button class="load-more" (click)="onLoadMore()">Load more</button>
+      }
+    </div>
+  </div>
+
+  <!-- Thread Panel -->
+  @if (threadStore.isOpen()) {
+    <beacon-thread-panel />
+  }
+</div>

@@ -1,0 +1,39 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">B</div>
+    <h1 class="login-title">Beacon</h1>
+    <p class="login-tagline">Every hashtag is a community</p>
+
+    <div class="login-form">
+      <input
+        class="login-input"
+        type="text"
+        placeholder="your-handle.bsky.social"
+        [value]="handle()"
+        (input)="handle.set($any($event.target).value)"
+        (keydown.enter)="onLogin()"
+        [disabled]="loading()"
+      />
+
+      <button
+        class="login-button"
+        (click)="onLogin()"
+        [disabled]="loading()"
+      >
+        @if (loading()) {
+          Signing in...
+        } @else {
+          Sign in with Bluesky
+        }
+      </button>
+
+      @if (error()) {
+        <p class="login-error">{{ error() }}</p>
+      }
+    </div>
+
+    <button class="login-browse" (click)="browsWithoutLogin()">
+      Browse without signing in
+    </button>
+  </div>
+</div>

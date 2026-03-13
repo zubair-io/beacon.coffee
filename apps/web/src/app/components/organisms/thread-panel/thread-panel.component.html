@@ -1,0 +1,81 @@
+<div class="thread-panel">
+  <div class="thread-header">
+    <h3 class="thread-title">Thread</h3>
+    <button class="close-btn" (click)="close()">
+      <beacon-icon name="close" [size]="18" />
+    </button>
+  </div>
+
+  @if (threadStore.loading()) {
+    <div class="thread-loading">
+      <beacon-spinner size="md" />
+    </div>
+  } @else if (threadStore.activeThread(); as thread) {
+    <div class="thread-body">
+      <!-- Root post -->
+      <div class="thread-root">
+        <div class="post-header">
+          <beacon-avatar
+            [src]="getAuthor(thread).avatar"
+            [name]="getAuthor(thread).displayName || getAuthor(thread).handle"
+            size="md"
+          />
+          <div class="post-author-info">
+            <span class="post-name">{{ getAuthor(thread).displayName || getAuthor(thread).handle }}</span>
+            <span class="post-handle">&#64;{{ getAuthor(thread).handle }}</span>
+          </div>
+          <beacon-source-badge />
+        </div>
+        <div class="post-text root-text" [innerHTML]="getText(thread)"></div>
+        <div class="post-time">{{ getTime(thread) }}</div>
+      </div>
+
+      <!-- Replies -->
+      @for (reply of getReplies(thread); track $index) {
+        <div class="thread-reply">
+          <div class="reply-line"></div>
+          <div class="reply-content">
+            <div class="post-header">
+              <beacon-avatar
+                [src]="getAuthor(reply).avatar"
+                [name]="getAuthor(reply).displayName || getAuthor(reply).handle"
+                size="sm"
+              />
+              <div class="post-author-info">
+                <span class="post-name">{{ getAuthor(reply).displayName || getAuthor(reply).handle }}</span>
+                <span class="post-handle">&#64;{{ getAuthor(reply).handle }}</span>
+                <span class="post-time-inline">&middot; {{ getTime(reply) }}</span>
+              </div>
+            </div>
+            <div class="post-text reply-text" [innerHTML]="getText(reply)"></div>
+          </div>
+        </div>
+      }
+
+      @if (getReplies(thread).length === 0) {
+        <div class="thread-empty">No replies yet. Start the conversation!</div>
+      }
+    </div>
+
+    <!-- Reply composer -->
+    @if (auth.isAuthenticated()) {
+      <div class="reply-composer">
+        <textarea
+          class="reply-input"
+          placeholder="Write a reply..."
+          [value]="replyText()"
+          (input)="replyText.set($any($event.target).value)"
+          (keydown.enter)="sendReply()"
+          rows="3"
+        ></textarea>
+        <button
+          class="reply-send"
+          (click)="sendReply()"
+          [disabled]="!replyText().trim() || sending()"
+        >
+          <beacon-icon name="send" [size]="16" />
+        </button>
+      </div>
+    }
+  }
+</div>

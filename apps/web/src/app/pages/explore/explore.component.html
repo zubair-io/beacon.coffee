@@ -1,0 +1,25 @@
+<div class="page-centered">
+  <h1 class="page-heading">Explore</h1>
+  <p class="page-subtitle">Discover communities on the AT Protocol</p>
+
+  <input
+    class="explore-search"
+    type="text"
+    placeholder="Search communities by hashtag..."
+    [value]="searchQuery()"
+    (input)="searchQuery.set($any($event.target).value)"
+  />
+
+  <div class="community-grid">
+    @for (community of filteredCommunities; track community.hashtag) {
+      <beacon-community-card
+        [hashtag]="community.hashtag"
+        [description]="community.description"
+        [memberCount]="community.memberCount"
+        [isJoined]="communityStore.isJoined(community.hashtag)"
+        (joinClicked)="onJoin($event)"
+        (click)="navigateTo(community.hashtag)"
+      />
+    }
+  </div>
+</div>

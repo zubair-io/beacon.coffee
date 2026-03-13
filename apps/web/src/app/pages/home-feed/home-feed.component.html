@@ -1,0 +1,33 @@
+<div class="page-centered">
+  <div class="page-header">
+    <h1 class="page-heading">Home</h1>
+    <beacon-sort-tabs
+      [activeSort]="feedStore.sort()"
+      (sortChanged)="onSortChange($event)"
+    />
+  </div>
+
+  @if (communityStore.communities().length === 0 && !feedStore.loading()) {
+    <div class="feed-empty">
+      <p>Join some communities to see posts here</p>
+      <a class="explore-link" routerLink="/explore">Explore communities</a>
+    </div>
+  }
+
+  @for (post of feedStore.posts(); track post.uri) {
+    <beacon-post-card
+      [post]="post"
+      [showCommunityTag]="true"
+      [communityTag]="getCommunityTag(post)"
+      (postClicked)="onPostClick($event)"
+      (likeClicked)="onLike($event)"
+      (repostClicked)="onRepost($event)"
+    />
+  }
+
+  @if (feedStore.loading()) {
+    <div class="feed-loading">
+      <beacon-spinner size="md" />
+    </div>
+  }
+</div>

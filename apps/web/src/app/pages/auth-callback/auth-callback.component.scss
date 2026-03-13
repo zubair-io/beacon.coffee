@@ -1,0 +1,28 @@
+.callback-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--beacon-bg);
+}
+
+.callback-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--beacon-border);
+  border-top-color: var(--beacon-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.callback-text {
+  color: var(--beacon-text-muted);
+  font-size: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
