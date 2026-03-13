@@ -2,7 +2,7 @@
   "client_id": "https://beacon.coffee/client-metadata.json",
   "client_name": "Beacon",
   "client_uri": "https://beacon.coffee",
-  "redirect_uris": ["https://beacon.coffee/auth/callback", "http://127.0.0.1:4200/auth/callback"],
+  "redirect_uris": ["https://beacon.coffee/auth/callback"],
   "scope": "atproto transition:generic",
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
